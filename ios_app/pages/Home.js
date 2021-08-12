@@ -6,6 +6,8 @@ import { ScrollView, View } from 'react-native';
 import IndexApi from '../models/Index'
 
 import IndexSwiper from '../components/IndexSwiper'
+import MainTitle from '../components/MainTitle'
+import RecomCourseContent from '../components/RecomCourseContent'
 
 const indexApi = new IndexApi();
 
@@ -17,10 +19,14 @@ class HomeScreen extends Component {
   
     this.state = {
       swipers: [],
-      fileds: [],
+      fields: [],
       courses: [],
       recomCourses: [],
     };
+  }
+
+  componentDidMount() {
+    this.getCourseDatas()
   }
 
   getCourseDatas () {
@@ -28,7 +34,7 @@ class HomeScreen extends Component {
     .then( res => {
       this.setState({
         swipers: res.result.swipers,
-        fileds: res.result.fileds,
+        fields: res.result.fields,
         courses: res.result.courses,
         recomCourses: res.result.recomCourses,
       })
@@ -36,21 +42,37 @@ class HomeScreen extends Component {
     .catch( err => {})
   }
 
-  componentDidMount() {
-    this.getCourseDatas()
+  getMainTitle(data, title = '') {
+    if (data) {
+      return <MainTitle title={data.field_name} />
+    }
+    return <MainTitle title={title} />
   }
+  
 
   render() {
 
     const { navigation } = this.props,
-          { swipers, fileds, courses, recomCourses } = this.state;
-
+          { swipers, fields, courses, recomCourses } = this.state;
+    console.log(this.state)
     return (
       <ScrollView>
         <IndexSwiper
           swiperData={swipers}
           navigation={navigation}
         />
+        { this.getMainTitle(null, "推荐课程") }
+        <RecomCourseContent
+          navigation={ navigation }
+          recomCoursesData={ recomCourses }
+        />
+        { this.getMainTitle(fields[0], null) }
+
+        { this.getMainTitle(fields[1], null) }
+
+        { this.getMainTitle(fields[2], null) }
+
+        { this.getMainTitle(fields[3], null) }
       </ScrollView>
     );
   }
