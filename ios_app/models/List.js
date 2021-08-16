@@ -1,11 +1,11 @@
 
 import HTTP from '../utils/http'
-import { API } from '../utils/api'
+import { API } from '../utils/config'
 
 export default class ListApi extends HTTP {
 
-	getCourses (params) {
-		return this.getFetch(API.getCourses + params, { method: 'GET' })
+	getCourses (field) {
+		return this.getFetch(API.getCourses + field, { method: 'GET' })
 	}
 
 	getCourseFields () {

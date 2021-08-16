@@ -10,7 +10,7 @@ import IndexSwiper from '../components/IndexSwiper'
 import MainTitle from '../components/MainTitle'
 import RecomCourseContent from '../components/RecomCourseContent'
 import CourseList from '../components/CourseList'
-
+import MyRefreshControl from '../components/MyRefreshControl'
 const indexApi = new IndexApi();
 
 
@@ -65,25 +65,6 @@ class HomeScreen extends Component {
     })
     this.getCourseDatas();
   }
-  
-  renderRefreshControl (options) {
-    const {
-      isRefreshing,
-      onRefresh,
-      tintColor,
-      title,
-      titleColor
-    } = options;
-    return(
-      <RefreshControl
-        refreshing={ isRefreshing }
-        onRefresh={ onRefresh }
-        tintColor={ tintColor }
-        title={ title }
-        titleColor={ titleColor }
-      />
-    )
-  }
 
   render() {
 
@@ -94,13 +75,10 @@ class HomeScreen extends Component {
         automaticallyAdjustContentInsets={ false }
         showsVerticalScrollIndicator={ false }
         refreshControl={
-          this.renderRefreshControl({
-            isRefreshing,
-            onRefresh: this.onRefresh.bind(this),
-            tintColor: '#666',
-            title: '正在加载...',
-            titleColor: '#666',
-          })
+          <MyRefreshControl
+            isRefreshing={isRefreshing}
+            onRefresh={ this.onRefresh.bind(this) }
+          />
         }
       >
         <IndexSwiper

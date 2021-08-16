@@ -6,6 +6,13 @@ const  API = {
 	getCourseFields: BASE_URL + 'course/v2/get_course_fields'
 }
 
+const refreshControlOptions = {
+	tintColor: '#666',
+	title: '正在加载',
+	titleColor: '#666'
+}
+
 export {
 	API,
+	refreshControlOptions
 }
