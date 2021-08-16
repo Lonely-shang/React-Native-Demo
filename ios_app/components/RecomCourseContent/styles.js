@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
 		paddingLeft: 4,
 	},
 	priceText: {
-		color: 'red'
+		color: '#f40'
 	}
 });
 

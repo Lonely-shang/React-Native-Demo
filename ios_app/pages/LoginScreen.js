@@ -8,12 +8,10 @@ import {
  
 const LoginScreen = ({navigation, route})=> {
 		console.log(route.params.id);
+    const { params } = route;
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>登录页面</Text>
-            <Button title={"登录"} onPress={()=>{
-                navigation.navigate('TabNav');
-            }} />
+            <Text>登录页面 id:{ params.id }</Text>
         </View>
     );
 };

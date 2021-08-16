@@ -16,6 +16,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import LoginScreen from './pages/LoginScreen';
 import HomeScreen from './pages/Home';
 import ListScreen from './pages/List';
+import Detail from './pages/Detail';
 
 import Logo from './components/Logo';
 
@@ -65,8 +66,16 @@ function BottomTab () {
 				name="首 页"
 				component={HomeScreen}
 				options={{
+					headerTitle: props => <Logo {...props} />,
+          headerRight: () => (
+	          <Button
+              onPress={() => alert('This is a button2!')}
+              title="Info2"
+              color="#000"
+            />
+          ),
 					tabBarBadge: 3,
-					headerShown: false,
+					headerShown: true,
 				}}	
 			/>
 			<Tab.Screen 
@@ -88,7 +97,6 @@ class TxClass extends Component {
 					name="BottomTab"
 					component={BottomTab}
 					options={{
-
 						headerTitle: props => <Logo {...props} />,
 	          headerRight: () => (
 		          <Button
@@ -97,13 +105,14 @@ class TxClass extends Component {
 	              color="#000"
 	            />
 	          ),
+	          headerShown: false,
 					}}
 				/>
 				<Stack.Screen
 					name="Detail"
-					component={LoginScreen}
+					component={ Detail }
 					options={{
-						title: '登录', 
+						title: '详情', 
 						headerBackTitle: '返回',
 						headerShown: true
 					}}
