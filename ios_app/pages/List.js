@@ -14,6 +14,7 @@ import ListApi from '../models/List';
 import ListTab from '../components/ListTab';
 import CourseList from '../components/CourseList';
 import MyRefreshControl from '../components/MyRefreshControl';
+import PageLoading from '../components/PageLoading';
 
 const listApi = new ListApi();
 
@@ -27,7 +28,8 @@ class ListScreen extends Component {
     coursesData: {},
     curIndex: 0,
     curField: 'all',
-    isRefreshing: false
+    isRefreshing: false,
+    pageLoadingShow: true,
    };
  }
   componentDidMount () {
@@ -43,11 +45,22 @@ class ListScreen extends Component {
   }
 
   getCourses (field) {
+    if (!this.state.isRefreshing) {
+      this.setState({
+        pageLoadingShow: true
+      })
+    }
     listApi.getCourses(field)
     .then( res => {
-      let coursesData = {}
+      let coursesData = this.state.coursesData;
       coursesData[field]= res.result;
-      this.setState({ coursesData: coursesData})
+      setTimeout(() => {
+        this.setState({
+          coursesData: coursesData,
+          isRefreshing: false,
+          pageLoadingShow: false,
+        })
+      }, 1000)
     })
   }
 
@@ -57,12 +70,22 @@ class ListScreen extends Component {
       curField: field
     }, () => {
       const { curField, coursesData } = this.state;
-      !coursesData[curField] && this.getCourses(curField)
+      !coursesData[curField] && this.getCourses(curField)      
     })
   }
 
   onRefresh () {
-    
+    const { curField, isRefreshing } = this.state;
+
+    if (isRefreshing) return;
+
+    this.setState({
+      isRefreshing: true
+    }, () => {
+      const { curField } = this.state;
+      this.getCourses(curField)
+    })
+
   }
 
   render() {
@@ -72,7 +95,8 @@ class ListScreen extends Component {
       curField,
       coursesData,
       isRefreshing,
-      coursesFieldsData
+      coursesFieldsData,
+      pageLoadingShow
     } = this.state,
     {
       navigation
@@ -93,9 +117,11 @@ class ListScreen extends Component {
           }
         >
           {
-            coursesData[curField] &&
+            pageLoadingShow ? 
+            <PageLoading />
+            :
             <CourseList
-              coursesData={ coursesData[curField] }
+              coursesData={ coursesData[curField] || [] }
               navigation={ navigation }
             />
           }

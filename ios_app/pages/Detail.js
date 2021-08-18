@@ -2,18 +2,16 @@
 
 import React, { Component } from 'react';
 
-import {
-  View,
-  Text
-} from 'react-native';
+import { WebView } from 'react-native-webview';
 
 const Detail = ({navigation, route})=> {
-    const { params } = route;
-    return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>详情页面 id:{ params.id }</Text>
-        </View>
-    );
+  const { params } = route;
+  return (
+  	<WebView
+  		source={{ url: 'https://ke.qq.com/course/' + params.id }}
+  		startInLoadingState={ true }
+  	/>
+  );
 };
 
 
